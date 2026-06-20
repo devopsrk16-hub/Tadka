@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tadka Express — Hot food, fast hands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF3E7;
+    --charcoal:#2B2420;
+    --curry:#D9622B;
+    --saffron:#F2A93C;
+    --maroon:#7A2E2E;
+    --paper-line:#E8DCC8;
+    --white:#FFFDF9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Fraunces',serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* NAV */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 28px;
+    border-bottom:1px solid var(--paper-line);
+    max-width:1080px;margin:0 auto;
+  }
+  .brand{
+    font-family:'Fraunces',serif;
+    font-weight:700;font-size:1.4rem;
+    letter-spacing:-0.01em;
+    color:var(--maroon);
+    display:flex;align-items:center;gap:8px;
+  }
+  .brand-mark{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--curry);
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.95rem;
+  }
+  .location-pill{
+    font-size:0.78rem;font-weight:500;
+    color:var(--charcoal);opacity:0.7;
+    border:1px solid var(--paper-line);
+    border-radius:999px;
+    padding:6px 14px;
+    display:flex;align-items:center;gap:6px;
+  }
+
+  /* HERO */
+  .hero{
+    max-width:1080px;margin:0 auto;
+    padding:40px 28px 8px;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    line-height:1.15;
+    max-width:560px;
+  }
+  .hero h1 em{
+    font-style:italic;font-weight:500;color:var(--curry);
+  }
+  .hero p.sub{
+    margin-top:10px;
+    font-size:0.98rem;
+    color:var(--charcoal);opacity:0.65;
+    max-width:480px;
+  }
+  .search-mock{
+    margin-top:22px;
+    display:flex;gap:10px;
+    max-width:480px;
+  }
+  .search-mock input{
+    flex:1;
+    border:1px solid var(--paper-line);
+    background:var(--white);
+    border-radius:10px;
+    padding:13px 16px;
+    font-size:0.92rem;
+    font-family:'Inter',sans-serif;
+    color:var(--charcoal);
+  }
+  .search-mock button{
+    background:var(--maroon);
+    color:var(--white);
+    border:none;border-radius:10px;
+    padding:0 22px;
+    font-weight:600;font-size:0.9rem;
+    cursor:pointer;
+  }
+
+  /* COUPON — the signature element / the part that goes live via CI/CD */
+  .coupon-wrap{
+    max-width:1080px;margin:34px auto 10px;
+    padding:0 28px;
+  }
+  .coupon{
+    position:relative;
+    background:var(--curry);
+    color:var(--white);
+    border-radius:18px;
+    padding:26px 36px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+    overflow:hidden;
+    box-shadow:0 14px 34px -16px rgba(122,46,46,0.45);
+  }
+  /* perforated edges */
+  .coupon::before,.coupon::after{
+    content:"";
+    position:absolute;
+    top:50%;transform:translateY(-50%);
+    width:34px;height:34px;
+    background:var(--cream);
+    border-radius:50%;
+  }
+  .coupon::before{left:-17px;}
+  .coupon::after{right:-17px;}
+  .coupon-divider{
+    position:absolute;
+    top:10px;bottom:10px;right:178px;
+    border-left:2px dashed rgba(255,253,249,0.45);
+  }
+  .coupon-left{position:relative;z-index:1;min-width:240px;}
+  .badge-row{
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:10px;
+  }
+  .live-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:#3CCB7F;
+    box-shadow:0 0 0 0 rgba(60,203,127,0.6);
+    animation:pulse 1.8s infinite;
+  }
+  @media (prefers-reduced-motion: reduce){.live-dot{animation:none;}}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(60,203,127,0.55);}
+    70%{box-shadow:0 0 0 9px rgba(60,203,127,0);}
+    100%{box-shadow:0 0 0 0 rgba(60,203,127,0);}
+  }
+  .badge-text{
+    font-size:0.7rem;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:rgba(255,253,249,0.18);
+    padding:4px 10px;border-radius:999px;
+  }
+  #offer-headline{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:clamp(1.3rem, 2.6vw, 1.85rem);
+    line-height:1.18;
+  }
+  #offer-subtext{
+    margin-top:6px;
+    font-size:0.88rem;
+    opacity:0.92;
+    max-width:340px;
+  }
+  .coupon-right{
+    position:relative;z-index:1;
+    text-align:right;
+    padding-left:24px;
+  }
+  .code-label{
+    font-size:0.68rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.08em;
+    opacity:0.85;margin-bottom:6px;
+  }
+  #offer-code{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;font-size:1.05rem;
+    background:rgba(255,253,249,0.16);
+    border:1px dashed rgba(255,253,249,0.5);
+    border-radius:8px;
+    padding:7px 14px;
+    letter-spacing:0.04em;
+    display:inline-block;
+  }
+  #offer-valid{
+    margin-top:8px;font-size:0.76rem;opacity:0.85;
+  }
+
+  /* deploy strip — proof of the pipeline, not the offer */
+  .deploy-strip{
+    max-width:1080px;margin:10px auto 0;
+    padding:0 28px;
+    font-size:0.74rem;
+    color:var(--charcoal);opacity:0.55;
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  /* RESTAURANT GRID */
+  .section-label{
+    max-width:1080px;margin:46px auto 16px;
+    padding:0 28px;
+    font-size:0.78rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--maroon);opacity:0.75;
+  }
+  .grid{
+    max-width:1080px;margin:0 auto;
+    padding:0 28px 60px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--paper-line);
+    border-radius:14px;
+    padding:18px;
+  }
+  .card .emoji{font-size:1.6rem;margin-bottom:10px;display:block;}
+  .card h3{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;
+    margin-bottom:4px;
+  }
+  .card p{font-size:0.8rem;opacity:0.6;margin-bottom:10px;}
+  .card .meta{
+    display:flex;justify-content:space-between;
+    font-size:0.76rem;font-weight:600;
+    color:var(--curry);
+  }
+
+  @media (max-width:560px){
+    .coupon{flex-direction:column;align-items:flex-start;}
+    .coupon-right{text-align:left;padding-left:0;}
+    .coupon-divider{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><span class="brand-mark">🍛</span>Tadka Express</div>
+  <div class="location-pill">📍 Hyderabad</div>
+</nav>
+
+<section class="hero">
+  <h1>Cravings don't wait. <em>Neither do we.</em></h1>
+  <p class="sub">Hot meals from kitchens near you, on the table before the rice gets cold.</p>
+  <div class="search-mock">
+    <input type="text" placeholder="Search biryani, dosa, momos..." disabled>
+    <button type="button">Search</button>
+  </div>
+</section>
+
+<div class="coupon-wrap">
+  <div class="coupon">
+    <div class="coupon-divider"></div>
+    <div class="coupon-left">
+      <div class="badge-row">
+        <span class="live-dot"></span>
+        <span id="offer-badge" class="badge-text">Loading offer…</span>
+      </div>
+      <div id="offer-headline">—</div>
+      <div id="offer-subtext"></div>
+    </div>
+    <div class="coupon-right">
+      <div class="code-label">Use code</div>
+      <div id="offer-code">——</div>
+      <div id="offer-valid"></div>
+    </div>
+  </div>
+</div>
+<div class="deploy-strip" id="deploy-strip"></div>
+
+<div class="section-label">Popular near you</div>
+<div class="grid">
+  <div class="card">
+    <span class="emoji">🍢</span>
+    <h3>Spice Junction</h3>
+    <p>North Indian • Tandoor</p>
+    <div class="meta"><span>★ 4.4</span><span>25–30 min</span></div>
+  </div>
+  <div class="card">
+    <span class="emoji">🍜</span>
+    <h3>Wok This Way</h3>
+    <p>Indo-Chinese • Noodles</p>
+    <div class="meta"><span>★ 4.2</span><span>30–35 min</span></div>
+  </div>
+  <div class="card">
+    <span class="emoji">🥘</span>
+    <h3>Curry Leaf Diner</h3>
+    <p>South Indian • Thali</p>
+    <div class="meta"><span>★ 4.6</span><span>20–25 min</span></div>
+  </div>
+  <div class="card">
+    <span class="emoji">🍕</span>
+    <h3>Bombay Bites</h3>
+    <p>Street Food • Fast Bites</p>
+    <div class="meta"><span>★ 4.3</span><span>15–20 min</span></div>
+  </div>
+</div>
+
+<script>
+  // The offer banner is fully driven by offers.json so marketing-style
+  // content can ship independently of the app itself — push a new
+  // offers.json through the pipeline and the live page updates instantly.
+  fetch('offers.json?_=' + Date.now())
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('offer-badge').textContent = data.badge || 'OFFER';
+      document.getElementById('offer-headline').textContent = data.headline || '';
+      document.getElementById('offer-subtext').textContent = data.subtext || '';
+      document.getElementById('offer-code').textContent = data.code || '';
+      document.getElementById('offer-valid').textContent = 'Valid till ' + (data.validTill || '');
+      if (data.accentColor) {
+        document.querySelector('.coupon').style.background = data.accentColor;
+      }
+    })
+    .catch(() => {
+      document.getElementById('offer-badge').textContent = 'OFFER UNAVAILABLE';
+      document.getElementById('offer-headline').textContent = 'Check back soon';
+    });
+
+  document.getElementById('deploy-strip').textContent =
+    'page served at ' + new Date().toLocaleString();
+</script>
+
+</body>
+</html>
